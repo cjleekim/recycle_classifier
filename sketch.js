@@ -5,14 +5,13 @@
 let confidence ="";
 let json = []; // JSON Object
 let button; // log download button
-var date // date
 let video;
 let classifier;
 let modelURL = './model/';
 let label;
 var today = new Date();
 
-// STEP 1: Load the model!
+// STEP 1: Load your trained model
 function preload() {
   classifier = ml5.imageClassifier(modelURL + 'model.json');
 }
@@ -26,6 +25,7 @@ function gotResults(error, results) {
   // Store the label and classify again!
   console.log('results','today');
     if(!error){
+    // Display label and confidence 
     confidence = ('Label: ' + results[0].label+','+' '+'Confidence: '+ nf(results[0].confidence, 0, 3 ));
     classifier.predict(gotResults);
     classifyVideo();
@@ -48,11 +48,13 @@ function draw() {
   textSize(35);
   text(label, 10, height - 80);
   text(confidence, 10, height - 50);
-  button = createButton('Download data'); // Users are able to download data
+  // Clickable button to download data
+  button = createButton('Download data'); 
   button.position(10, 450);
 }
 
 function setup() {
+  // Canvas size that display camera view
   createCanvas(800, 480);  
   video = createCapture(VIDEO);
   video.hide();
